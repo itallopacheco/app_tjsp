@@ -9,11 +9,18 @@ class TabelaDadosPrecatorio extends StatefulWidget {
 class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
   int _pageIndex = 0;
+  late _PrecatorioDataSource _precatorioDataSource;
+
+  @override
+  void initState() {
+    super.initState();
+    _precatorioDataSource = _PrecatorioDataSource([]);
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getPrecatorioData(),
+      future: _getPrecatorioData(_rowsPerPage, _pageIndex),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -21,11 +28,13 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
           return Text('Erro: ${snapshot.error}');
         } else {
           List<Map<String, dynamic>>? precatorioData = snapshot.data;
+          _precatorioDataSource = _PrecatorioDataSource(precatorioData!);
 
           return SingleChildScrollView(
             child: PaginatedDataTable(
               header: Text('Dados Precatórios'),
               columns: [
+                DataColumn(label: Text('ID')),
                 DataColumn(label: Text('Sigla do Tribunal')),
                 DataColumn(label: Text('Ano de Referência')),
                 DataColumn(label: Text('Esfera do Federado Devedor')),
@@ -42,18 +51,12 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
                     label: Text(
                         'Montante de Precatórios expedidos no ano de referência')),
               ],
-              source: _PrecatorioDataSource(precatorioData!),
+              source: _precatorioDataSource,
               onPageChanged: (newPageIndex) {
-                setState(() {
-                  _pageIndex = newPageIndex;
-                });
+                _fetchNextPage(newPageIndex);
               },
               rowsPerPage: _rowsPerPage,
-              availableRowsPerPage: [
-                5,
-                10,
-                20
-              ], // Opções de quantidade de linhas por página
+              availableRowsPerPage: [5, 10, 20],
               onRowsPerPageChanged: (newRowsPerPage) {
                 setState(() {
                   _rowsPerPage = newRowsPerPage!;
@@ -66,9 +69,13 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
     );
   }
 
-  Future<List<Map<String, dynamic>>> _getPrecatorioData() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('mapa_precatorios').get();
+  Future<List<Map<String, dynamic>>> _getPrecatorioData(
+      int pageSize, int pageIndex) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('mapa_precatorios')
+        .orderBy('sigla_estado')
+        .limit(pageSize * 2)
+        .startAfter([_pageIndex]).get();
 
     List<Map<String, dynamic>> precatorioData = [];
     querySnapshot.docs.forEach((doc) {
@@ -76,6 +83,19 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
     });
 
     return precatorioData;
+  }
+
+  void _fetchNextPage(int newPageIndex) async {
+    setState(() {
+      _pageIndex += newPageIndex;
+    });
+
+    List<Map<String, dynamic>>? precatorioData =
+        await _getPrecatorioData(_rowsPerPage, _pageIndex);
+
+    setState(() {
+      _precatorioDataSource = _PrecatorioDataSource(precatorioData);
+    });
   }
 }
 
@@ -88,6 +108,7 @@ class _PrecatorioDataSource extends DataTableSource {
   DataRow getRow(int index) {
     final rowData = _precatorioData[index];
     return DataRow(cells: [
+      DataCell(Text(rowData['montante_ano_referencia'].toString())),
       DataCell(Text(rowData['sigla_tribunal'].toString())),
       DataCell(Text(rowData['ano_referencia'].toString())),
       DataCell(Text(rowData['esfera_federado_devedor'].toString())),
