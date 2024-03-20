@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "915324274768",
+    "project_id": "precatorios-t-j-s-p-eqq87i",
+    "storage_bucket": "precatorios-t-j-s-p-eqq87i.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915324274768:android:055bfcff4e1ca49eec6955",
+        "android_client_info": {
+          "package_name": "com.example.app_tjsp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6dnr9n_5c5Ed0XXS3hj-XuqkVepi2S-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915324274768:android:d83c3cf571cff59bec6955",
+        "android_client_info": {
+          "package_name": "com.mycompany.precatoriostjsp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6dnr9n_5c5Ed0XXS3hj-XuqkVepi2S-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
