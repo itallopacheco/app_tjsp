@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class TabelaDadosPrecatorio extends StatefulWidget {
+  const TabelaDadosPrecatorio({super.key});
+
   @override
   _TabelaDadosPrecatorioState createState() => _TabelaDadosPrecatorioState();
 }
@@ -10,11 +12,19 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
   int _pageIndex = 0;
   late _PrecatorioDataSource _precatorioDataSource;
+  int _totalRows = 0;
 
   @override
   void initState() {
     super.initState();
-    _precatorioDataSource = _PrecatorioDataSource([]);
+    _precatorioDataSource = _PrecatorioDataSource([], _totalRows);
+
+    _getTotalPrecatorioCount().then((value) {
+      setState(() {
+        _totalRows = value;
+        _precatorioDataSource = _PrecatorioDataSource([], _totalRows);
+      });
+    });
   }
 
   @override
@@ -28,13 +38,22 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
           return Text('Erro: ${snapshot.error}');
         } else {
           List<Map<String, dynamic>>? precatorioData = snapshot.data;
-          _precatorioDataSource = _PrecatorioDataSource(precatorioData!);
+          _precatorioDataSource =
+              _PrecatorioDataSource(precatorioData!, _totalRows);
 
           return SingleChildScrollView(
             child: PaginatedDataTable(
               header: Text('Dados Precatórios'),
               columns: [
-                DataColumn(label: Text('ID')),
+                DataColumn(
+                  label: Text('Teste'),
+                  onSort: (columnIndex, ascending) {
+                    _precatorioDataSource.sort<String>(
+                        (d) => d['montante_ano_referencia'].toString(),
+                        columnIndex,
+                        ascending);
+                  },
+                ),
                 DataColumn(label: Text('Sigla do Tribunal')),
                 DataColumn(label: Text('Ano de Referência')),
                 DataColumn(label: Text('Esfera do Federado Devedor')),
@@ -52,16 +71,8 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
                         'Montante de Precatórios expedidos no ano de referência')),
               ],
               source: _precatorioDataSource,
-              onPageChanged: (newPageIndex) {
-                _fetchNextPage(newPageIndex);
-              },
+              onPageChanged: (newPageIndex) {},
               rowsPerPage: _rowsPerPage,
-              availableRowsPerPage: [5, 10, 20],
-              onRowsPerPageChanged: (newRowsPerPage) {
-                setState(() {
-                  _rowsPerPage = newRowsPerPage!;
-                });
-              },
             ),
           );
         }
@@ -73,36 +84,30 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
       int pageSize, int pageIndex) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('mapa_precatorios')
-        .orderBy('sigla_estado')
-        .limit(pageSize * 2)
-        .startAfter([_pageIndex]).get();
+        .orderBy('ano_referencia')
+        .startAfter([pageIndex * pageSize]).get();
 
     List<Map<String, dynamic>> precatorioData = [];
     querySnapshot.docs.forEach((doc) {
       precatorioData.add(doc.data() as Map<String, dynamic>);
     });
-
     return precatorioData;
   }
 
-  void _fetchNextPage(int newPageIndex) async {
-    setState(() {
-      _pageIndex += newPageIndex;
-    });
-
-    List<Map<String, dynamic>>? precatorioData =
-        await _getPrecatorioData(_rowsPerPage, _pageIndex);
-
-    setState(() {
-      _precatorioDataSource = _PrecatorioDataSource(precatorioData);
-    });
+  Future<int> _getTotalPrecatorioCount() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('mapa_precatorios').get();
+    return querySnapshot.size;
   }
 }
 
 class _PrecatorioDataSource extends DataTableSource {
   final List<Map<String, dynamic>> _precatorioData;
+  final _rowCount;
+  int _sortColumnIndex = 0;
+  bool _sortAscending = true;
 
-  _PrecatorioDataSource(this._precatorioData);
+  _PrecatorioDataSource(this._precatorioData, this._rowCount);
 
   @override
   DataRow getRow(int index) {
@@ -129,8 +134,31 @@ class _PrecatorioDataSource extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => _precatorioData.length;
+  int get rowCount => _rowCount;
 
   @override
   int get selectedRowCount => 0;
+
+  void _sort<T>(Comparable<T> Function(Map<String, dynamic>) getField,
+      int columnIndex, bool ascending) {
+    _precatorioData.sort((a, b) {
+      final aValue = getField(a);
+      final bValue = getField(b);
+      return ascending
+          ? Comparable.compare(aValue, bValue)
+          : Comparable.compare(bValue, aValue);
+    });
+    notifyListeners();
+  }
+
+  void sort<T>(Comparable<T> Function(Map<String, dynamic>) getField,
+      int columnIndex, bool ascending) {
+    if (_sortColumnIndex == columnIndex) {
+      _sortAscending = !_sortAscending;
+    } else {
+      _sortAscending = true;
+    }
+    _sortColumnIndex = columnIndex;
+    _sort(getField, columnIndex, _sortAscending);
+  }
 }
