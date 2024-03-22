@@ -55,7 +55,15 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
                   },
                 ),
                 DataColumn(label: Text('Sigla do Tribunal')),
-                DataColumn(label: Text('Ano de Referência')),
+                DataColumn(
+                  label: Text('Ano de Referência'),
+                  onSort: (columnIndex, ascending) {
+                    _precatorioDataSource.sort<String>(
+                        (d) => (d['ano_referencia'].toString()),
+                        columnIndex,
+                        ascending);
+                  },
+                ),
                 DataColumn(label: Text('Esfera do Federado Devedor')),
                 DataColumn(label: Text('Sigla do Estado')),
                 DataColumn(label: Text('Cód. Município Devedor')),
