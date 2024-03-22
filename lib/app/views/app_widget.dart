@@ -12,7 +12,10 @@ class AppWidget extends StatelessWidget {
       initialRoute: '/data_table', // Define the initial route
       routes: {
         '/': (context) => LoginPage(),
-        '/data_table': (context) => HomePage(),
+        '/data_table': (context) => HomePage(
+              onFilterSubmitted: (String municipio, String entidade,
+                  String cnpj, String anoReferencia) {},
+            ),
       },
     );
   }

@@ -2,9 +2,13 @@ import 'package:app_tjsp/app/components/data_table.dart';
 import 'package:app_tjsp/app/components/drawer.dart';
 import 'package:flutter/material.dart';
 
+typedef void FilterCallback(
+    String municipio, String entidade, String cnpj, String anoReferencia);
+
 /// Página inicial do aplicativo, exibindo a transparência do TJSP.
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final FilterCallback onFilterSubmitted;
+  const HomePage({super.key, required this.onFilterSubmitted});
 
   @override
   State<HomePage> createState() {
@@ -14,6 +18,37 @@ class HomePage extends StatefulWidget {
 
 /// Estado da página inicial.
 class HomePageState extends State<HomePage> {
+  late TabelaDadosPrecatorio tabelaDadosPrecatorio;
+  TextEditingController municipioController = TextEditingController();
+  TextEditingController entidadeController = TextEditingController();
+  TextEditingController cnpjController = TextEditingController();
+  TextEditingController anoReferenciaController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    tabelaDadosPrecatorio = TabelaDadosPrecatorio(
+        municipio: municipioController.text,
+        entidade: entidadeController.text,
+        cnpj: cnpjController.text,
+        anoReferencia: anoReferenciaController.text);
+  }
+
+  void _submitFilters() {
+    String municipio = municipioController.text;
+    String entidade = entidadeController.text;
+    String cnpj = cnpjController.text;
+    String anoReferencia = anoReferenciaController.text;
+    setState(() {
+      tabelaDadosPrecatorio = TabelaDadosPrecatorio(
+          municipio: municipio,
+          entidade: entidade,
+          cnpj: cnpj,
+          anoReferencia: anoReferencia);
+    });
+    widget.onFilterSubmitted(municipio, entidade, cnpj, anoReferencia);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,18 +58,21 @@ class HomePageState extends State<HomePage> {
       ),
       body: SafeArea(
         top: true,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              child: _buildFilterExpansionTile(),
-            ),
-            Expanded(
-              child: TabelaDadosPrecatorio(),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: _buildFilterExpansionTile(),
+              ),
+              SizedBox(
+                  height:
+                      8), // Adiciona um espaço entre o ExpansionTile e a tabela de dados
+              tabelaDadosPrecatorio, // Sem o Expanded
+            ],
+          ),
         ),
       ),
       drawer: MyDrawer(),
@@ -52,20 +90,22 @@ class HomePageState extends State<HomePage> {
         ],
       ),
       children: [
-        _buildFilterTextField('Municipio Devedor'),
-        _buildFilterTextField('Entidade Devedora'),
-        _buildFilterTextField('CNPJ'),
-        _buildFilterTextField('Ano de Referência'),
+        _buildFilterTextField('Municipio Devedor', municipioController),
+        _buildFilterTextField('Entidade Devedora', entidadeController),
+        _buildFilterTextField('CNPJ', cnpjController),
+        _buildFilterTextField('Ano de Referência', anoReferenciaController),
         _buildSubmitButton(),
       ],
     );
   }
 
   /// Constrói um campo de texto para um filtro específico.
-  Widget _buildFilterTextField(String labelText) {
+  Widget _buildFilterTextField(
+      String labelText, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: labelText,
@@ -78,7 +118,7 @@ class HomePageState extends State<HomePage> {
   Widget _buildSubmitButton() {
     return ElevatedButton(
       onPressed: () {
-        // TODO: Lógica para submeter os filtros
+        _submitFilters();
       },
       child: const Row(
         children: [
