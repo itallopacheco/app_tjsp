@@ -74,99 +74,101 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: const Color(0xffe6e6e6),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 150,
-            ),
-            Container(
-              width: 1000,
-              height: 150,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(15), // Adjust the radius as needed
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 150,
               ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Image.network(
-                  'https://i.imgur.com/IN6Xk3a.png',
-                  fit: BoxFit.cover,
+              Container(
+                width: 1000,
+                height: 150,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.circular(15), // Adjust the radius as needed
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Image.network(
+                    'https://i.imgur.com/IN6Xk3a.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            const Text(
-              'Precatorios TJSP',
-              style: TextStyle(
-                color: Color(0xff000000),
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 8.0,
-              ),
-              child: Text(
-                textAlign: TextAlign.center,
-                'Digite abaixo suas informações para criar sua conta',
+              const Text(
+                'Precatorios TJSP',
                 style: TextStyle(
                   color: Color(0xff000000),
-                  fontSize: 14,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            MyTextField(
-              controller: _emailController,
-              hintText: 'Email',
-              obscureText: false,
-            ),
-            MyTextField(
-              controller: _passwordController,
-              hintText: 'Senha',
-              obscureText: true,
-            ),
-            MyTextField(
-              controller: _passwordConfirmController,
-              hintText: 'Confirme sua Senha',
-              obscureText: true,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            MyButton(
-              onTap: _register,
-              text: 'Registrar-se',
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Já possui uma conta?',
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8.0,
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
-                GestureDetector(
-                  onTap: widget.switchTap,
-                  child: const Text(
-                    'Faça seu login agora!',
-                    style: TextStyle(
-                      color: Color(0xffce1518),
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  'Digite abaixo suas informações para criar sua conta',
+                  style: TextStyle(
+                    color: Color(0xff000000),
+                    fontSize: 14,
                   ),
-                )
-              ],
-            )
-          ],
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              MyTextField(
+                controller: _emailController,
+                hintText: 'Email',
+                obscureText: false,
+              ),
+              MyTextField(
+                controller: _passwordController,
+                hintText: 'Senha',
+                obscureText: true,
+              ),
+              MyTextField(
+                controller: _passwordConfirmController,
+                hintText: 'Confirme sua Senha',
+                obscureText: true,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              MyButton(
+                onTap: _register,
+                text: 'Registrar-se',
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Já possui uma conta?',
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  GestureDetector(
+                    onTap: widget.switchTap,
+                    child: const Text(
+                      'Faça seu login agora!',
+                      style: TextStyle(
+                        color: Color(0xffce1518),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

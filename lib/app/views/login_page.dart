@@ -72,122 +72,124 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: const Color(0xffe6e6e6),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 150,
-            ),
-            Container(
-              width: 1000,
-              height: 150,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(15), // Adjust the radius as needed
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 150,
               ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Image.network(
-                  'https://i.imgur.com/IN6Xk3a.png',
-                  fit: BoxFit.cover,
+              Container(
+                width: 1000,
+                height: 150,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.circular(15), // Adjust the radius as needed
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Image.network(
+                    'https://i.imgur.com/IN6Xk3a.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            const Text(
-              'Precatorios TJSP',
-              style: TextStyle(
-                color: Color(0xff000000),
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              const Text(
+                'Precatorios TJSP',
+                style: TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            MyTextField(
-              controller: _emailController,
-              hintText: 'Email',
-              obscureText: false,
-            ),
-            MyTextField(
-              controller: _passwordController,
-              hintText: 'Senha',
-              obscureText: true,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            MyButton(
-              onTap: _login,
-              text: 'Entrar',
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.0),
-              child: Row(
+              const SizedBox(
+                height: 25,
+              ),
+              MyTextField(
+                controller: _emailController,
+                hintText: 'Email',
+                obscureText: false,
+              ),
+              MyTextField(
+                controller: _passwordController,
+                hintText: 'Senha',
+                obscureText: true,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              MyButton(
+                onTap: _login,
+                text: 'Entrar',
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        thickness: 2.5,
+                        color: Color(0xffe7c87b),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      child: Text(
+                        "Ou entre com",
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        thickness: 2.5,
+                        color: Color(0xffe7c87b),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Divider(
-                      thickness: 2.5,
-                      color: Color(0xffe7c87b),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    child: Text(
-                      "Ou entre com",
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 2.5,
-                      color: Color(0xffe7c87b),
-                    ),
-                  ),
+                  My_Tile(
+                      imageURL:
+                          'https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA')
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                My_Tile(
-                    imageURL:
-                        'https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA')
-              ],
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Não possui conta?',
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                GestureDetector(
-                  onTap: widget.switchTap,
-                  child: const Text(
-                    'Inscreva-se agora!',
-                    style: TextStyle(
-                      color: Color(0xffce1518),
-                      fontWeight: FontWeight.bold,
-                    ),
+              const SizedBox(
+                height: 40,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Não possui conta?',
                   ),
-                )
-              ],
-            ),
-          ],
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  GestureDetector(
+                    onTap: widget.switchTap,
+                    child: const Text(
+                      'Inscreva-se agora!',
+                      style: TextStyle(
+                        color: Color(0xffce1518),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
