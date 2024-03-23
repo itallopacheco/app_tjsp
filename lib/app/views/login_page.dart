@@ -1,3 +1,4 @@
+import 'package:app_tjsp/app/components/ui/my_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -17,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final String email = _emailController.text.trim();
       final String password = _passwordController.text.trim();
+
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -32,27 +34,45 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      backgroundColor: Color(0xffe6e6e6),
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            const SizedBox(
+              height: 150,
+            ),
+            Container(
+              width: 1000,
+              height: 150,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.circular(15), // Adjust the radius as needed
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Image.network(
+                  'https://i.imgur.com/IN6Xk3a.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const Text(
+              'Precatorios TJSP',
+              style: TextStyle(color: Color(0xff000000), fontSize: 16),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            MyTextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              hintText: 'Login',
+              obscureText: false,
             ),
-            TextField(
+            MyTextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Senha'),
+              hintText: 'Senha',
               obscureText: true,
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _login,
-              child: Text('Login'),
             ),
           ],
         ),
@@ -60,3 +80,34 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+//   @override
+//   Widget euild(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Precatorios TJSP'),
+//       ),
+//       body: Padding(
+//         padding: EdgeInsets.all(16.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             TextField(
+//               controller: _emailController,
+//               decoration: InputDecoration(labelText: 'Email'),
+//             ),
+//             TextField(
+//               controller: _passwordController,
+//               decoration: InputDecoration(labelText: 'Senha'),
+//               obscureText: true,
+//             ),
+//             SizedBox(height: 16.0),
+//             ElevatedButton(
+//               onPressed: _login,
+//               child: Text('Login'),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
