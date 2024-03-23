@@ -1,4 +1,6 @@
+import 'package:app_tjsp/app/components/ui/my_buttom.dart';
 import 'package:app_tjsp/app/components/ui/my_textfield.dart';
+import 'package:app_tjsp/app/components/ui/my_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -34,9 +36,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffe6e6e6),
+      backgroundColor: const Color(0xffe6e6e6),
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
               height: 150,
@@ -74,40 +77,73 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Senha',
               obscureText: true,
             ),
+            const SizedBox(
+              height: 15,
+            ),
+            MyButton(onTap: _login),
+            const SizedBox(
+              height: 35,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      thickness: 2.5,
+                      color: Color(0xffe7c87b),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6.0),
+                    child: Text(
+                      "Ou entre com",
+                      style: TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      thickness: 2.5,
+                      color: Color(0xffe7c87b),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                My_Tile(
+                    imageURL:
+                        'https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA')
+              ],
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Não possui conta?',
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  'Inscreva-se agora!',
+                  style: TextStyle(
+                      color: Color(0xffce1518), fontWeight: FontWeight.bold),
+                )
+              ],
+            )
           ],
         ),
       ),
     );
   }
 }
-//   @override
-//   Widget euild(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Precatorios TJSP'),
-//       ),
-//       body: Padding(
-//         padding: EdgeInsets.all(16.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             TextField(
-//               controller: _emailController,
-//               decoration: InputDecoration(labelText: 'Email'),
-//             ),
-//             TextField(
-//               controller: _passwordController,
-//               decoration: InputDecoration(labelText: 'Senha'),
-//               obscureText: true,
-//             ),
-//             SizedBox(height: 16.0),
-//             ElevatedButton(
-//               onPressed: _login,
-//               child: Text('Login'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
