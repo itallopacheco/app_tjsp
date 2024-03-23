@@ -1,5 +1,5 @@
+import 'package:app_tjsp/app/components/switch_login_register.dart';
 import 'package:app_tjsp/app/views/data_table_view.dart';
-import 'package:app_tjsp/app/views/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class AuthPage extends StatelessWidget {
 
           // user is noy logged in
           else {
-            return const LoginPage();
+            return const SwitchLoginRegister();
           }
         },
       ),

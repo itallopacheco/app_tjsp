@@ -4,22 +4,25 @@ import 'package:app_tjsp/app/components/ui/my_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final Function()? switchTap;
-  const LoginPage({super.key, required this.switchTap});
+  const RegisterPage({super.key, required this.switchTap});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
 
-  Future<void> _login() async {
+  Future<void> _register() async {
     final String email = _emailController.text.trim();
     final String password = _passwordController.text.trim();
+    final String passwordConfirm = _passwordConfirmController.text.trim();
 
     showDialog(
       context: context,
@@ -31,22 +34,21 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
+      if (passwordConfirm == password) {
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      }
+      // Lidar com erros de cadastro
+      else {
+        wrongMsg('As senhas devem ser iguais');
+      }
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
-      // Lidar com erros de login
-      if (e.code == 'invalid-email') {
-        wrongMsg('Email incorreto');
-      } else if (e.code == 'invalid-credential') {
-        wrongMsg('Senha incorreta');
-      } else {
-        wrongMsg('Ops ... Algo deu errado');
-      }
+      wrongMsg('Ops ... Algo deu errado $e');
     }
   }
 
@@ -102,6 +104,19 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 8.0,
+              ),
+              child: Text(
+                textAlign: TextAlign.center,
+                'Digite abaixo suas informações para criar sua conta',
+                style: TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 14,
+                ),
+              ),
+            ),
             const SizedBox(
               height: 25,
             ),
@@ -115,62 +130,26 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Senha',
               obscureText: true,
             ),
+            MyTextField(
+              controller: _passwordConfirmController,
+              hintText: 'Confirme sua Senha',
+              obscureText: true,
+            ),
             const SizedBox(
               height: 15,
             ),
             MyButton(
-              onTap: _login,
-              text: 'Entrar',
+              onTap: _register,
+              text: 'Registrar-se',
             ),
             const SizedBox(
               height: 35,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      thickness: 2.5,
-                      color: Color(0xffe7c87b),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    child: Text(
-                      "Ou entre com",
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 2.5,
-                      color: Color(0xffe7c87b),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                My_Tile(
-                    imageURL:
-                        'https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA')
-              ],
-            ),
-            const SizedBox(
-              height: 40,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Não possui conta?',
+                  'Já possui uma conta?',
                 ),
                 const SizedBox(
                   width: 4,
@@ -178,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                 GestureDetector(
                   onTap: widget.switchTap,
                   child: const Text(
-                    'Inscreva-se agora!',
+                    'Faça seu login agora!',
                     style: TextStyle(
                       color: Color(0xffce1518),
                       fontWeight: FontWeight.bold,
@@ -186,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 )
               ],
-            ),
+            )
           ],
         ),
       ),
