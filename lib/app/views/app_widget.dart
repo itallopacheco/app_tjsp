@@ -1,3 +1,4 @@
+import 'package:app_tjsp/app/components/auth_page.dart';
 import 'package:app_tjsp/app/views/data_table_view.dart';
 import 'package:app_tjsp/app/views/login_page.dart';
 import 'package:app_tjsp/app/views/mapa_de_precatorios.dart';
@@ -10,12 +11,16 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       title: 'Transparência TJSP',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/data_table', // Define the initial route
+      initialRoute: '/login', // Define the initial route
       routes: {
-        '/login': (context) => LoginPage(),
+        '/login': (context) => const AuthPage(),
         '/data_table': (context) => HomePage(
-              onFilterSubmitted: (String municipio, String entidade,
-                  String cnpj, String anoReferencia) {},
+              onFilterSubmitted: (
+                String municipio,
+                String entidade,
+                String cnpj,
+                String anoReferencia,
+              ) {},
             ),
         '/precatorios-ano': (context) => MapaPrecatoriosPage(),
       },

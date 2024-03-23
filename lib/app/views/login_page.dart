@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
         password: password,
       );
       // Navegar para a próxima página após o login bem-sucedido
-      Navigator.pushReplacementNamed(context, '/data_table');
+      // Navigator.pushReplacementNamed(context, '/data_table');
     } catch (e) {
       // Lidar com erros de login
       print('Erro de login: $e');

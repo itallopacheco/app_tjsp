@@ -7,22 +7,23 @@ class TabelaDadosPrecatorio extends StatefulWidget {
   String cnpj;
   String anoReferencia;
 
-  TabelaDadosPrecatorio(
-      {super.key,
-      required this.municipio,
-      required this.entidade,
-      required this.cnpj,
-      required this.anoReferencia});
+  TabelaDadosPrecatorio({
+    super.key,
+    required this.municipio,
+    required this.entidade,
+    required this.cnpj,
+    required this.anoReferencia,
+  });
 
   @override
   _TabelaDadosPrecatorioState createState() => _TabelaDadosPrecatorioState();
 }
 
 class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
-  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-  int _pageIndex = 0;
+  final int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+  final int _pageIndex = 0;
   late _PrecatorioDataSource _precatorioDataSource;
-  int _totalRows = 0;
+  final int _totalRows = 0;
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
           widget.entidade, widget.cnpj, widget.anoReferencia),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Erro: ${snapshot.error}');
         } else {
@@ -63,38 +64,42 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
 
           return SingleChildScrollView(
             child: PaginatedDataTable(
-              header: Text('Dados Precatórios'),
+              header: const Text('Dados Precatórios'),
               columns: [
                 DataColumn(
-                  label: Text('Teste'),
+                  label: const Text('Teste'),
                   onSort: (columnIndex, ascending) {
                     _precatorioDataSource.sort<String>(
-                        (d) => d['montante_ano_referencia'].toString(),
-                        columnIndex,
-                        ascending);
+                      (d) => d['montante_ano_referencia'].toString(),
+                      columnIndex,
+                      ascending,
+                    );
                   },
                 ),
-                DataColumn(label: Text('Sigla do Tribunal')),
+                const DataColumn(label: Text('Sigla do Tribunal')),
                 DataColumn(
-                  label: Text('Ano de Referência'),
+                  label: const Text('Ano de Referência'),
                   onSort: (columnIndex, ascending) {
                     _precatorioDataSource.sort<String>(
-                        (d) => (d['ano_referencia'].toString()),
-                        columnIndex,
-                        ascending);
+                      (d) => (d['ano_referencia'].toString()),
+                      columnIndex,
+                      ascending,
+                    );
                   },
                 ),
-                DataColumn(label: Text('Esfera do Federado Devedor')),
-                DataColumn(label: Text('Sigla do Estado')),
-                DataColumn(label: Text('Cód. Município Devedor')),
-                DataColumn(label: Text('Regime de Pagamento')),
-                DataColumn(label: Text('Tipo de Entidade Devedora')),
-                DataColumn(label: Text('CNPJ da Entidade Devedora')),
-                DataColumn(label: Text('Nome da Entidade Devedora')),
-                DataColumn(label: Text('Valor expedido até ano anterior')),
-                DataColumn(label: Text('Montante pago no ano de referência')),
-                DataColumn(label: Text('Saldo devedor após pagamento')),
-                DataColumn(
+                const DataColumn(label: Text('Esfera do Federado Devedor')),
+                const DataColumn(label: Text('Sigla do Estado')),
+                const DataColumn(label: Text('Cód. Município Devedor')),
+                const DataColumn(label: Text('Regime de Pagamento')),
+                const DataColumn(label: Text('Tipo de Entidade Devedora')),
+                const DataColumn(label: Text('CNPJ da Entidade Devedora')),
+                const DataColumn(label: Text('Nome da Entidade Devedora')),
+                const DataColumn(
+                    label: Text('Valor expedido até ano anterior')),
+                const DataColumn(
+                    label: Text('Montante pago no ano de referência')),
+                const DataColumn(label: Text('Saldo devedor após pagamento')),
+                const DataColumn(
                     label: Text(
                         'Montante de Precatórios expedidos no ano de referência')),
               ],
@@ -109,12 +114,13 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
   }
 
   Future<List<Map<String, dynamic>>> _getPrecatorioData(
-      int pageSize,
-      int pageIndex,
-      String municipio,
-      String entidade,
-      String cnpj,
-      String anoReferencia) async {
+    int pageSize,
+    int pageIndex,
+    String municipio,
+    String entidade,
+    String cnpj,
+    String anoReferencia,
+  ) async {
     Query query = FirebaseFirestore.instance.collection('mapa_precatorios');
     if (municipio.isNotEmpty) {
       query = query.where('cod_mun_devedor', isEqualTo: municipio);
