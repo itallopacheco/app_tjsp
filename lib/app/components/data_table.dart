@@ -126,7 +126,9 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
       query = query.where('cnpj_entidade_devedora', isEqualTo: cnpj);
     }
     if (anoReferencia.isNotEmpty) {
-      query = query.where('ano_referencia', isEqualTo: anoReferencia);
+      int anoReferenciaInt = int.tryParse(anoReferencia) ??
+          0; // Convertendo a string para um número
+      query = query.where('ano_referencia', isEqualTo: anoReferenciaInt);
     }
 
     QuerySnapshot querySnapshot =
