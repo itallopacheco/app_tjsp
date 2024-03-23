@@ -17,20 +17,52 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _login() async {
-    try {
-      final String email = _emailController.text.trim();
-      final String password = _passwordController.text.trim();
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
 
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       // Navegar para a próxima página após o login bem-sucedido
       // Navigator.pushReplacementNamed(context, '/data_table');
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
       // Lidar com erros de login
-      print('Erro de login: $e');
+      if (e.code == 'invalid-email') {
+        wrongMsg('Email incorreto');
+      } else if (e.code == 'invalid-credential') {
+        wrongMsg('Senha incorreta');
+      } else {
+        wrongMsg('Ops ... Algo deu errado');
+      }
     }
+  }
+
+  void wrongMsg(String mensagem) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            mensagem,
+            style: const TextStyle(color: Color(0xffce1518)),
+          ),
+          backgroundColor: const Color(0xffe6e6e6),
+        );
+      },
+    );
   }
 
   @override

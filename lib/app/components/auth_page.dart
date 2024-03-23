@@ -17,12 +17,13 @@ class AuthPage extends StatelessWidget {
           // user is logged in
           if (snapshot.hasData) {
             return HomePage(
-                onFilterSubmitted: (
-              String municipio,
-              String entidade,
-              String cnpj,
-              String anoReferencia,
-            ) {});
+              onFilterSubmitted: (
+                String municipio,
+                String entidade,
+                String cnpj,
+                String anoReferencia,
+              ) {},
+            );
           }
 
           // user is noy logged in

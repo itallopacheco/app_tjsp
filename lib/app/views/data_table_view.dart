@@ -52,9 +52,11 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffe6e6e6),
       appBar: AppBar(
         title: const Text('Transparência TJSP'),
         actions: [],
+        backgroundColor: const Color(0xffe6e6e6),
       ),
       body: SafeArea(
         top: true,
