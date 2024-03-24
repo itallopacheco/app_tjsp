@@ -1,14 +1,14 @@
-import 'package:app_tjsp/app/components/ui/my_buttom.dart';
-import 'package:app_tjsp/app/components/ui/my_textfield.dart';
-import 'package:app_tjsp/app/components/ui/my_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_tjsp/app/components/ui/my_buttom.dart';
+import 'package:app_tjsp/app/components/ui/my_textfield.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? switchTap;
   const RegisterPage({super.key, required this.switchTap});
 
   @override
+  // ignore: library_private_types_in_public_api
   _RegisterPageState createState() => _RegisterPageState();
 }
 
@@ -33,22 +33,33 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
 
+    if (password != passwordConfirm) {
+      Navigator.pop(context);
+      wrongMsg("As senhas devem ser iguais");
+      return;
+    }
+
     try {
-      if (passwordConfirm == password) {
-        UserCredential userCredential =
-            await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-      }
-      // Lidar com erros de cadastro
-      else {
-        wrongMsg('As senhas devem ser iguais');
-      }
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
-      wrongMsg('Ops ... Algo deu errado $e');
+      if (e.code == 'missing-email') {
+        wrongMsg('Digite um email');
+      }
+      if (e.code == 'invalid-email') {
+        wrongMsg('Email inválido');
+      } else if (e.code == 'missing-password') {
+        wrongMsg('Digite uma senha');
+      } else {
+        wrongMsg('Ops ... Algo deu errado $e');
+      }
     }
   }
 
