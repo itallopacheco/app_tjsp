@@ -54,19 +54,6 @@ class MyDrawer extends StatelessWidget {
           //   },
           // ),
 
-          /// Opção 3: Dúvidas Frequentes
-          ListTile(
-            title: const Text('Dúvidas Frequentes'),
-            onTap: () {
-              // TODO: Lógica para ação da opção 3
-            },
-          ),
-          const Divider(
-            thickness: 2.5,
-            height: 1,
-            color: Color(0xffe7c87b),
-          ),
-
           /// Opção 4: Precatórios por ano
           ListTile(
             title: const Text('Precatórios por ano'),
