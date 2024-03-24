@@ -1,6 +1,7 @@
 import 'package:app_tjsp/app/components/ui/my_buttom.dart';
 import 'package:app_tjsp/app/components/ui/my_textfield.dart';
 import 'package:app_tjsp/app/components/ui/my_tile.dart';
+import 'package:app_tjsp/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -156,10 +157,11 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 40,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   My_Tile(
+                      onTap: () => AuthService().signInWithGoogle(),
                       imageURL:
                           'https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA')
                 ],

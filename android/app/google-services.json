@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "915324274768",
+    "firebase_url": "https://precatorios-t-j-s-p-eqq87i-default-rtdb.firebaseio.com",
     "project_id": "precatorios-t-j-s-p-eqq87i",
     "storage_bucket": "precatorios-t-j-s-p-eqq87i.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.app_tjsp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "915324274768-42is1jfgv6k04n6ek6m52kj0e82f9t7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB6dnr9n_5c5Ed0XXS3hj-XuqkVepi2S-A"
@@ -20,7 +26,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915324274768-42is1jfgv6k04n6ek6m52kj0e82f9t7j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "915324274768-3rvs5367hagn56tjc5kuprs9r10j7qsl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.precatoriostjsp"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +49,28 @@
           "package_name": "com.mycompany.precatoriostjsp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "915324274768-h5446tcbdatep90kvbbr13f871n76foh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.precatoriostjsp",
+            "certificate_hash": "8c7738ff6332231d4961cdfd6703b91a8bb9067c"
+          }
+        },
+        {
+          "client_id": "915324274768-v88tst5cmg291mp4jl6rmg2rmqhi16ml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.precatoriostjsp",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "915324274768-42is1jfgv6k04n6ek6m52kj0e82f9t7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB6dnr9n_5c5Ed0XXS3hj-XuqkVepi2S-A"
@@ -39,7 +78,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915324274768-42is1jfgv6k04n6ek6m52kj0e82f9t7j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "915324274768-3rvs5367hagn56tjc5kuprs9r10j7qsl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.precatoriostjsp"
+              }
+            }
+          ]
         }
       }
     }
