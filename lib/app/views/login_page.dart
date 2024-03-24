@@ -1,15 +1,16 @@
-import 'package:app_tjsp/app/components/ui/my_buttom.dart';
-import 'package:app_tjsp/app/components/ui/my_textfield.dart';
-import 'package:app_tjsp/app/components/ui/my_tile.dart';
-import 'package:app_tjsp/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_tjsp/app/components/ui/my_tile.dart';
+import 'package:app_tjsp/app/services/auth_service.dart';
+import 'package:app_tjsp/app/components/ui/my_buttom.dart';
+import 'package:app_tjsp/app/components/ui/my_textfield.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? switchTap;
   const LoginPage({super.key, required this.switchTap});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -37,16 +38,21 @@ class _LoginPageState extends State<LoginPage> {
         password: password,
       );
 
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
       // Lidar com erros de login
-      if (e.code == 'invalid-email') {
-        wrongMsg('Email incorreto');
-      } else if (e.code == 'invalid-credential') {
-        wrongMsg('Senha incorreta');
-      } else {
-        wrongMsg('Ops ... Algo deu errado');
+      switch (e.code) {
+        case 'invalid-email':
+          wrongMsg('Email inválido');
+          break;
+        case 'Senha incorreta':
+          wrongMsg('Senha inválida');
+          break;
+        default:
+          wrongMsg('Ops ... Algo deu errado');
       }
     }
   }

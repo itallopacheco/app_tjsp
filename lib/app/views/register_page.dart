@@ -50,15 +50,28 @@ class _RegisterPageState extends State<RegisterPage> {
     } on FirebaseAuthException catch (e) {
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
-      if (e.code == 'missing-email') {
-        wrongMsg('Digite um email');
-      }
-      if (e.code == 'invalid-email') {
-        wrongMsg('Email inválido');
-      } else if (e.code == 'missing-password') {
-        wrongMsg('Digite uma senha');
-      } else {
-        wrongMsg('Ops ... Algo deu errado $e');
+
+      switch (e.code) {
+        case 'email-already-in-use':
+          wrongMsg('Esse email já se encontra cadastrado');
+          break;
+        case 'missing-email':
+          wrongMsg('Email inválido');
+          break;
+        case 'invalid-email':
+          wrongMsg('Email inválido');
+          break;
+        case 'missing-password':
+          wrongMsg('Email inválido');
+          break;
+        case 'Senha incorreta':
+          wrongMsg('Senha inválida');
+          break;
+        case 'weak-password':
+          wrongMsg('A senha deve ter no mínimo 6 caracteres');
+          break;
+        default:
+          wrongMsg('Ops ... Algo deu errado');
       }
     }
   }
