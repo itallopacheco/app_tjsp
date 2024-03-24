@@ -66,16 +66,6 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
             child: PaginatedDataTable(
               header: const Text('Dados Precatórios'),
               columns: [
-                DataColumn(
-                  label: const Text('Teste'),
-                  onSort: (columnIndex, ascending) {
-                    _precatorioDataSource.sort<String>(
-                      (d) => d['montante_ano_referencia'].toString(),
-                      columnIndex,
-                      ascending,
-                    );
-                  },
-                ),
                 const DataColumn(label: Text('Sigla do Tribunal')),
                 DataColumn(
                   label: const Text('Ano de Referência'),
@@ -94,8 +84,16 @@ class _TabelaDadosPrecatorioState extends State<TabelaDadosPrecatorio> {
                 const DataColumn(label: Text('Tipo de Entidade Devedora')),
                 const DataColumn(label: Text('CNPJ da Entidade Devedora')),
                 const DataColumn(label: Text('Nome da Entidade Devedora')),
-                const DataColumn(
-                    label: Text('Valor expedido até ano anterior')),
+                DataColumn(
+                  label: const Text('Valor expedido até ano anterior'),
+                  onSort: (columnIndex, ascending) {
+                    _precatorioDataSource.sort<String>(
+                      (d) => (d['montante_ano_anterior'].toString()),
+                      columnIndex,
+                      ascending,
+                    );
+                  },
+                ),
                 const DataColumn(
                     label: Text('Montante pago no ano de referência')),
                 const DataColumn(label: Text('Saldo devedor após pagamento')),
@@ -159,7 +157,6 @@ class _PrecatorioDataSource extends DataTableSource {
   DataRow getRow(int index) {
     final rowData = _precatorioData[index];
     return DataRow(cells: [
-      DataCell(Text(rowData['montante_ano_referencia'].toString())),
       DataCell(Text(rowData['sigla_tribunal'].toString())),
       DataCell(Text(rowData['ano_referencia'].toString())),
       DataCell(Text(rowData['esfera_federado_devedor'].toString())),
