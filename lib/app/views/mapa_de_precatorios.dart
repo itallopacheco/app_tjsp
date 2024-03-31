@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:download_path/download_directory.dart';
 
 /// Página que exibe o Mapa Anual de Precatórios.
 class MapaPrecatoriosPage extends StatefulWidget {
@@ -67,7 +67,7 @@ class MapaPrecatoriosPageState extends State<MapaPrecatoriosPage> {
     final url = await ref.getDownloadURL();
 
     String? downloadsDirectoryPath =
-        (await DownloadsPath.downloadsDirectory())?.path;
+        (await DownloadPath.downloadsDirectory())?.path;
 
     final filePath = '${downloadsDirectoryPath}/${ref.name}';
     print(filePath);
